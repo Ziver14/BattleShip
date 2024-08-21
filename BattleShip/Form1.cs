@@ -129,10 +129,7 @@ namespace BattleShip
 
                 }
             }
-            else
-            {
-
-            }
+            
             Direction direction;
             ShipType shipType = ShipType.x1;
             if (checkBox1.Checked) direction = Direction.Vertical; else direction = Direction.Horizontal;
@@ -174,6 +171,10 @@ namespace BattleShip
             if (cnt > 4) 
             {
                 MessageBox.Show("Превышено колличество клеток");
+                int x = dataGridView1.SelectedCells[cnt -1].ColumnIndex;
+                int y = dataGridView1.SelectedCells[0].RowIndex;
+                dataGridView1.Rows[y].Cells[x].Selected = false;
+                dataGridView1.ClearSelection();
             }
         }
     }
