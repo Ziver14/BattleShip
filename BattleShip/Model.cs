@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -178,8 +179,78 @@ namespace BattleShip
             return result;
 
         }
-            
+        
+        public bool CheckCoord(string xy, ShipType Type, Direction direction = Direction.Vertical)
+        {
 
+
+            bool result = true;
+            return result;
+        }
+
+        //Добавляет или удаляет корабль
+       //ху - координаты корабля. Type - тип корабля. Direction - направление. Deleting - удаляем или добавляем
+       //В случае успешной операции возвращает true;
+        public bool AddDelShip(string xy, ShipType Type, Direction direction = Direction.Vertical, bool deleteing = false ) 
+        {
+            bool result = true;
+            if (deleteing || CheckCoord(xy, Type, direction))
+            {
+                int x = int.Parse(xy.Substring(0, 1));
+                int y = int.Parse(xy.Substring(1));
+                CoordStatus status = new CoordStatus();
+                if (deleteing) status = CoordStatus.None; else status = CoordStatus.Ship;
+                PlayerShips[x, y] = CoordStatus.Ship;
+                if (direction == Direction.Vertical)
+                {
+                    switch (Type)
+                    {
+                        case ShipType.x2:
+                            PlayerShips[x, y + 1] = status;
+                            break;
+                        case ShipType.x3:
+                            PlayerShips[x, y + 1] = status;
+                            PlayerShips[x, y + 2] = status;
+                            break;
+                        case ShipType.x4:
+                            PlayerShips[x, y + 1] = status;
+                            PlayerShips[x, y + 2] = status;
+                            PlayerShips[x, y + 3] = status;
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (Type)
+                    {
+                        case ShipType.x2:
+                            PlayerShips[x + 1, y] = status;
+                            break;
+                        case ShipType.x3:
+                            PlayerShips[x + 1, y] = status;
+                            PlayerShips[x + 2, y] = status;
+                            break;
+                        case ShipType.x4:
+                            PlayerShips[x + 1, y] = status;
+                            PlayerShips[x + 2, y] = status;
+                            PlayerShips[x + 3, y] = status;
+                            break;
+                    }
+                }
+            }
+            else result = false;
+            return result;
+        }
+        
+        public void DelShips()
+        {
+            for (int i = 0; i < 10; i++)
+                for (int j = 0; j < 10; j++)
+                    PlayerShips[i,j] = CoordStatus.None;
+        }
+
+
+        
 
 
     }
